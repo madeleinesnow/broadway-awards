@@ -8,4 +8,4 @@ This application uses data from the [Internet Broadway Database](https://www.ibd
 
 The interface can be run through the RStudio desktop client, but users must first install all relevant packages and libraries (available at the top of the app.R file). After installing the relevant dependencies, users can run the application locally through the RStudio desktop client.
 
-Check out the live application [here](https://madeleinersnow.shinyapps.io/broadway-awards/)!
+# Check out the live application [here](https://madeleinersnow.shinyapps.io/broadway-awards/)!
