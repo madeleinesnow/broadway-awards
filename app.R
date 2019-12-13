@@ -7,6 +7,7 @@ library(tidyverse)
 library(ggplot2)
 library(plotly)
 library(ggthemes)
+library(vembedr)
 
 # Read in data from rds files
 
@@ -337,7 +338,13 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                  a("Tony Awards for Best Musical", href="https://en.wikipedia.org/wiki/Tony_Award_for_Best_Musical"), p(),
                  a("Tony Awards for Best Play", href="https://en.wikipedia.org/wiki/Tony_Award_for_Best_Play"),
                  
-              # Include information about the app author so that anyone impressed by my Shiny App can contact me to offer me a job!
+              # Embed video recap of my Shiny App
+              
+                h3("Video Recap"),
+                
+                embed_url("https://youtu.be/InUg-GgBi80"),
+               
+               # Include information about the app author so that anyone impressed by my Shiny App can contact me to offer me a job!
 
                  h3("About Me: Madeleine Snow"),
                  p("I am a senior at Harvard College studying Psychology and Theater, Dance & Media. I enjoy using R to 
