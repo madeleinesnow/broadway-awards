@@ -6,11 +6,9 @@ library(shinythemes)
 library(tidyverse)
 library(ggplot2)
 library(stringr)
-library(gt)
 library(forcats)
 library(plotly)
 library(ggthemes)
-library(DT)
 
 # Read in data from rds files
 
@@ -51,19 +49,21 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
              tabsetPanel(
                tabPanel("Trends by Year",
                         
-                        h3("Runs of Plays and Musicals by Year"),
-                        strong("Number of Performances of Tony-Nominated and Tony-Winning Plays and Musicals"),
+                        h3("Runs of Plays versus Musicals by Year"),
+                        strong("Number of Performances of Tony-Nominated and Tony-Winning Plays versus Musicals"),
                         
                         # This plot is made from the plotly package for crisper, sharper looking graphics than ggplot2. 
                         # This plotly plot is the scatterplot of Tony-nominated/winning plays vs musicals over time
                         
                         plotlyOutput("yearPlot"),
                         
-                        h6("In every year since 1955, the longest-running Tony-nominated or Tony-winning show of the season was a musical. 
-                  In some years, however, plays up for these awards ran longer than some other musicals which opened that year. While 
-                  plays had few outlying shows with relatively long runs within the category, musicals
-                  had increasing numbers of outliers with long runs from the 1940s to the 1980s. This trend reversed in the
-                  1990s, showing decreasing frequency of outliers with long runs of musicals."),
+                        br(),
+                        
+                        h5("In every year since 1955, the longest-running Tony-nominated or Tony-winning show of the season was a musical. 
+                        In some years, however, plays up for these awards ran longer than some other musicals which opened that year. While 
+                        plays had few outlying shows with relatively long runs within the category, musicals
+                        had increasing numbers of outliers with long runs from the 1940s to the 1980s. This trend reversed in the
+                        1990s, showing decreasing frequency of outliers with long runs of musicals."),
                         
                         br()
                         
@@ -80,13 +80,14 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                
                tabPanel("Trends by Decade",
                         
-                        h3("Runs of Tony-Nominated and Tony-Winning Shows by Decade"),
-                        strong("Average Number of Performances of Plays versus Musicals"),
+                        h3("Runs of Plays versus Musicals by Decade"),
+                        strong("Average Number of Performances of Tony-Nominated and Tony-Winning Plays versus Musicals"),
                         
                         br(),
                         br(),
                         
-                        # Viewers can interact with the app, choosing to view decade trends in plays or musicals based on the category they click
+                        # Viewers can interact with the app, choosing to view decade trends in plays or musicals based on the category 
+                        # they click
                         
                         sidebarPanel(
                           radioButtons("type2",
@@ -95,20 +96,20 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                           
                           strong("Plays in the 1960s and 1970s"),
                           
-                          h6("Tony-Nominated and Tony-Winning Plays which opened in the 1960s and 1970s had the longest
-                      average run of plays across the decades of the award category history, with an average of about 
-                      400 performances. This trend can be attributed to the cultural upheaval in the United States. 
-                      The era of movements including the civil rights movement, student movement, anti-Vietnam War 
-                      movement, gay rights movement, and environmental movement contributed to the subject of socially
-                      conscious drama."),
+                          h6("Tony-nominated and Tony-winning plays which opened in the 1960s and 1970s had the longest
+                          average run of plays across the decades of the award category history, with an average of about 
+                          400 performances. This trend can be attributed to the cultural upheaval in the United States. 
+                          The era of movements including the civil rights movement, student movement, anti-Vietnam War 
+                          movement, gay rights movement, and environmental movement contributed to the subject of socially
+                          conscious drama."),
                           
                           strong("Musicals in the 1980s"),
                           
-                          h6("Tony Award-Nominated and Award-Winning Musicals which opened in the 1980s had the longest
-                      average run of musicals across the decades of the award category history, with an average of over
-                      1,300 performances. This trend can be attributed to the commercialization of musicals intended
-                      to be large-scale spectacles, known as 'mega-musicals.' Notable megamusicals
-                      in the 1980s include Cats (1981), Les Miserables (1985), and The Phantom of the Opera (1986).")         
+                          h6("Tony-nominated and Tony-winning musicals which opened in the 1980s had the longest
+                          average run of musicals across the decades of the award category history, with an average of over
+                          1,300 performances. This trend can be attributed to commercialization of musicals intended
+                          to be large-scale spectacles, known as 'mega-musicals.' Notable megamusicals
+                          in the 1980s include Cats (1981), Les Miserables (1985), and The Phantom of the Opera (1986).")         
                           
                         ),
                         
@@ -122,14 +123,14 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                           
                         )),
                
-               # Final tab comparing Tony-nominated/Tony-winning plays versus musicals. I chose to show the distribution of 
-               # runs between the categories of plays and musicals using a histogram to show frequency. I also chose to use a bar graph
+               # Final tab comparing Tony-nominated/Tony-winning plays versus musicals. I chose to show the distribution of runs 
+               # between the categories of plays and musicals using a histogram to show frequency. I also chose to use a bar graph
                # for simple visual comparison of the length of runs between these categories of show.
                
                tabPanel("Summary",
                         
-                        h3("Number of Performances of Plays versus Musicals"),
-                        strong("Distribution of Runs of Tony Award-Nominated and Award-Winning Shows"),
+                        h3("Distribution of Runs: Plays versus Musicals"),
+                        strong("Distribution of Number of Performances of Tony Award-Nominated and Award-Winning Shows"),
                         
                         br(),
                         br(),
@@ -147,8 +148,8 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                           # From these visualizations, some trends can be generalized
                           
                           h6("The distribution of number of performances for Tony-nominated and Tony-winning Broadway musicals 
-                       is more skewed right than number of performances for Broadway plays, illustrating that Broadway musicals tend
-                       to have longer runs and more performances.")
+                          is more skewed right than number of performances for Broadway plays, illustrating that Broadway musicals 
+                          tend to have longer runs and more performances.")
                           
                         ),
                         
@@ -167,8 +168,8 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                         # generalization of trends. This plot confirmed that Tony-nominated musicals run, on average, 
                         # longer than plays.
                         
-                        strong("Average Number of Performances of Plays versus Musicals"),
-                        h6("Tony-nominated musicals run, on average, for about 800 performances more than Tony-nominated plays."),
+                        h3("Average Number of Performances of Plays versus Musicals"),
+                        strong("Tony-nominated musicals run, on average, for about 800 performances more than Tony-nominated plays."),
                         
                         br(),
                         
@@ -179,7 +180,9 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                         br()
                         
                ))),
-               
+              
+            
+             
           
          # My next question when playing with this data was about popularity of shows which were nominated for versus actually 
          # won Tony Awards over time. Are shows which were nominated for and won Tony Awards really more popular than 
@@ -190,19 +193,24 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
          # Tony-winning shows, but there are several years in which a Tony-nominated show ran longer than Tony-winning shows
          # which opened that same year. Interestingly, all of those popular, Tony-nominated shows are musicals.
             
-          tabPanel("Award Winners vs. Nominees",  
+        tabPanel("Award Winners vs. Nominees",  
                   
           tabsetPanel(
             tabPanel("Trends by Year",
                      
-                     h3("Runs of Nominated and Winning Shows by Year"),
-                     strong("Number of Performances of Tony-Nominated and Tony-Winning Plays and Musicals"),
+                     h3("Runs of Award-Nominated versus Award-Winning Shows by Year"),
+                     strong("Number of Performances of Tony-Nominated versus Tony-Winning Plays and Musicals"),
                      
                      # This plotly plot is the scatterplot of Tony-nominated vs Tony-winning shows over time
 
                      plotlyOutput("yearwinnerPlot"),
                      
-                     h6("In most years, the longest-running show won the Tony, but there are several years in 
+                     # I had winning show points represented with the color gold and nominated/non-winning shows
+                     # represented by the color silver. 
+                     
+                     br(),
+                     
+                     h5("In most years, the longest-running show won the Tony, but there are several years in 
                      which a Tony-nominated show ran significantly longer than the Tony-winning shows that season:
                      1972 (Grease), 1991 (Miss Saigon), 1994 (Beauty and the Beast), 2002 (Mamma Mia!), 
                      2004 (Wicked), 2007 (Mary Poppins), 2009 (Rock of Ages), and 2014 (Aladdin). Musicals were the 
@@ -213,13 +221,20 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                      
             ),
             
+            # Create another tab for visualizations of Tony winners versus nominees over time. As with my plays versus musical comparison, 
+            # I chose a bar plot to visualize this data across decades and evaluate patterns within and between ranking 
+            # (winners versus nominees).
+            
             tabPanel("Trends by Decade",
                      
-                     h3("Runs of Plays versus Musicals by Decade"),
-                     strong("Average Number of Performances of Tony-Nominated and Tony-Winning Shows by Category"),
+                     h3("Runs of Award-Nominated versus Award-Winning Shows by Decade"),
+                     strong("Average Number of Performances of Tony-Nominated versus Tony-Winning Shows"),
                      
                      br(),
                      br(),
+                     
+                     # Viewers can interact with the app, choosing to view decade trends in ranking, winner or nominee, based on the category 
+                     # they click
                      
                      sidebarPanel(
                        radioButtons("type4",
@@ -228,7 +243,7 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                        
                        strong("Winners in the 1980s"),
                        
-                       h6("Tony-Winning shows which opened in the 1980s had the longest average run of plays and musicals 
+                       h6("Tony-winning shows which opened in the 1980s had the longest average run of plays and musicals 
                           across the decades of the awards' history, with an average of about 
                           2,200 performances. The decades prior to the 80s show an increase across decades in the average
                           number of performances of Tony-Winning shows, while the decades after the 80s show a decrease in
@@ -236,14 +251,16 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                        
                        strong("Nominees in the 2000s"),
                        
-                       h6("Tony-Nominated shows which opened in the 2000s had the longest average run of plays and musicals 
+                       h6("Tony-nominated shows which opened in the 2000s had the longest average run of plays and musicals 
                           across the decades of the awards' history, with an average of about 
                           575 performances. This trend can be attributed to the rise of Disney and jukebox musicals, which were popular and 
-                          commercially successful but were not the strongest candidates in those year to win the Tony Award.")         
+                          commercially successful but were not the strongest candidates in those years to win the Tony Award.")         
                        
                      ),
                      
                      mainPanel(
+                       
+                       # This plotly plot is the bar plot showing average run by decade for award winners versus nominees
                        
                        plotlyOutput("decadewinnerPlot"),
                        
@@ -252,14 +269,15 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                      )),
             
             
-            # I was curious about the overall relationship between popularity of shows which were nominated for (but did not win)
+            # Finally, I wanted to show the overall relationship between popularity of shows which were nominated for (but did not win)
             # the Tony Award versus that of shows which actually won the award. It is intuitive that shows which win the 
             # awards are more popular and run longer. Making these bar plot comparisons was an attempt to confirm or deny this
             # intuition.
             
             tabPanel("Summary",
                      
-                     h3("Average Run of Tony Award-Nominated versus Award-Winning Shows"),
+                     h3("Average Run of Award-Nominated versus Award-Winning Shows"),
+                     strong("Comparison of Award-Nominated versus Award-Winning Shows by Category (Plays and Musicals)"),
                      
                      br(),
                      
@@ -273,11 +291,11 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                        # for more performances, on average, than Tony-nominated shows holds for both categories
                        
                        h6("Tony-winning Broadway plays and musicals run, on average, 
-                   longer than Tony-nominated Broadway plays and musicals. Tony-winning
-                   musicals run, on average, for 1200 more performances than Tony-nominated
-                   musicals, nearly triple the run of nominated but non-winning musicals. Tony-winning
-                   plays run, on average, for 250 more performances than Tony-nominated plays,
-                   nearly double the run of nominated but non-winning plays.")
+                        longer than Tony-nominated Broadway plays and musicals. Tony-winning
+                        musicals run, on average, for 1200 more performances than Tony-nominated
+                        musicals, nearly triple the run of nominated but non-winning musicals. Tony-winning
+                        plays run, on average, for 250 more performances than Tony-nominated plays,
+                        nearly double the run of nominated but non-winning plays.")
                        
                      ),
                      
@@ -285,17 +303,16 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                        
                        plotlyOutput("winnerPlot")
                        
-                       # I had winning show points represented with the color gold and nominated/non-winning shows
-                       # represented by the color silver. As I suspected, the winner (versus nominee) status of both plays
-                       # and musicals might influence this correlation.
+                       # As I suspected, the winner (versus nominee) status of both plays and musicals are correlated with average run, suggesting
+                       # that Tony-winning shows are more popular than their nominee (but non-winner) counterparts.
                        
                      ))
             
             
           )),
             
-            
     
+        
     
     tabPanel("About", 
              mainPanel(
@@ -305,7 +322,8 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                  h3("Tony Awards"),
                  p("The Tony Awards, which recognize excellence in live Broadway theatre, are annually nominated and awarded to 
                    Broadway shows across several categories, including Best Play and Best Musical. The awards in these categories 
-                   began in 1948 and 1949, respectively, and are presented by the American Theatre Wing and The Broadway League."),
+                   began in 1948 and 1949, respectively, and are presented by the American Theatre Wing and The Broadway League. 
+                   The plays and musicals which were nominated for or won these awards comprise the dataset for this project."),
                  
                # Provide information about industry and project data sources
                  
@@ -313,7 +331,8 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                  p("The Broadway League, the national trade association for the Broadway industry, publishes data gathered 
                    from Broadway shows, including the opening and closing dates for Broadway shows, in the Internet Broadway 
                    Database. Broadway shows typically perform 8 shows per week, so running length can be calculated between 
-                   opening and closing dates. Running length is used as a proxy for the popularity of plays and musicals."),
+                   opening and closing dates. Running length is used as a proxy for evaluating the popularity of plays and musicals
+                   in this project."),
                  
                  h3("Data Sources"),
                  a("Internet Broadway Database (IBDB)", href="https://www.ibdb.com/"), p(),
@@ -326,17 +345,18 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                  p("I am a senior at Harvard College studying Psychology and Theater, Dance & Media. I enjoy using R to 
                  reveal insights in data all around us."),
                  p("Please contact me at msnow@college.harvard.edu or connect with me on LinkedIn", 
-                   a("HERE.", href="https://linkedin.com/in/madeleinesnow/")),
+                 a("HERE.", href="https://linkedin.com/in/madeleinesnow/")),
                  
               # Include a link to the Source Code for reproducibility and credibility  
               
                 h3("Source Code"),
                 h5("The source code for this Shiny App can be found at my GitHub", 
-                   a("HERE.", href="https://github.com/madeleinesnow/broadway-awards"))
+                a("HERE.", href="https://github.com/madeleinesnow/broadway-awards"))
          ))
   ))
                  
-                          
+       
+                   
   
            
 server <- function(input, output) {
@@ -354,7 +374,6 @@ server <- function(input, output) {
                        scale_fill_manual(values = c("plum3")))
     
     hide_legend(ggplotly(hist)) %>% config(displayModeBar = FALSE) %>% style(hoverinfo = "skip")
-
     
   })
 
@@ -386,7 +405,8 @@ server <- function(input, output) {
       geom_bar(stat = "identity", show.legend=FALSE) +
       facet_grid(~ Category) +
       labs(y = "Average Run (Number of Performances)") +
-      scale_fill_manual(values = c("lightsteelblue3", "goldenrod3")))
+      scale_fill_manual(values = c("lightsteelblue3", "goldenrod3")) +
+      ylim(0,2000))
       
     
     hide_legend(ggplotly(winner)) %>% config(displayModeBar = FALSE)
@@ -404,7 +424,8 @@ server <- function(input, output) {
        ggplot(aes(x = Decade, y = Average_Run, fill = Decade)) +
        geom_bar(stat = "identity", show.legend=FALSE) +
        facet_grid(~ Category) +
-       labs(x = "", y = "Average Run (Number of Performances)"))
+       labs(x = "", y = "Average Run (Number of Performances)") +
+       ylim(0,1500))
     
     hide_legend(ggplotly(decade)) %>% config(displayModeBar = FALSE)
     
@@ -421,7 +442,8 @@ server <- function(input, output) {
                          ggplot(aes(x = Decade, y = Average_Run, fill = Decade)) +
                          geom_bar(stat = "identity", show.legend=FALSE) +
                          facet_grid(~ Winner) +
-                         labs(x = "", y = "Average Run (Number of Performances)"))
+                         labs(x = "", y = "Average Run (Number of Performances)") +
+                         ylim(0,2300))
     
     hide_legend(ggplotly(decadewinner)) %>% config(displayModeBar = FALSE)
     
@@ -454,6 +476,7 @@ server <- function(input, output) {
     hide_legend(ggplotly(yearwinner)) %>% config(displayModeBar = FALSE)
  
 })
+
   
 }
 
