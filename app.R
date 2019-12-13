@@ -57,8 +57,8 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                         
                         br(),
                         
-                        h5("In every year since 1955, the longest-running Tony-nominated or Tony-winning show of the season was a musical. 
-                        In some years, however, plays up for these awards ran longer than some other musicals which opened that year. While 
+                        h5("In nearly every year, the longest-running Tony-nominated or Tony-winning show of the season was a musical. 
+                        In several years, however, plays up for these awards ran longer than some other musicals which opened that year. While 
                         plays had few outlying shows with relatively long runs within the category, musicals
                         had increasing numbers of outliers with long runs from the 1940s to the 1980s. This trend reversed in the
                         1990s, showing decreasing frequency of outliers with long runs of musicals."),
