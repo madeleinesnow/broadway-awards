@@ -335,7 +335,7 @@ bp_all <- rbind(bp40s, bp50s, bp60s, bp70s, bp80s, bp90s, bp00s, bp10s) %>%
 ```
 
 
-```{r}
+```{r Googlesheets, include = FALSE}
 
 sheets_deauth()
 
@@ -406,21 +406,3 @@ write_rds(longest_run_nom, "tables/nom.rds")
 
 ```
 
-```{r graphic, include=TRUE}
-
-bm_all$Winner[bm_all$Winner==0] <- "Nominee"
-bm_all$Winner[bm_all$Winner==1] <- "Winner"
-
-bm_all$Women[bm_all$Women==0] <- "No Female Writers"
-bm_all$Women[bm_all$Women==1] <- "At Least 1 Female Writer"
-
-ggplot(bm_all, aes(x = Winner, fill = Women)) +
-  geom_bar(position = position_dodge(preserve = "single")) +
-  facet_wrap(. ~ Decade) +
-  labs(x = "Tony Award Nominees/Winners",
-       fill = "Writing Teams' Gender Composition",
-       title = "Gender of Broadway Writers",
-       subtitle = "Shows up for Tony Award for Best Musical, 1949-1999",
-       caption = "*Writing teams are comprised of book writers, lyricists, and/or composers*")
-
-```
