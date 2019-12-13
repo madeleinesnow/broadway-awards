@@ -5,8 +5,6 @@ library(shiny)
 library(shinythemes)
 library(tidyverse)
 library(ggplot2)
-library(stringr)
-library(forcats)
 library(plotly)
 library(ggthemes)
 
