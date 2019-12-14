@@ -360,7 +360,7 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
               
                 h3("Video Recap"),
                 
-                embed_url("https://youtu.be/InUg-GgBi80"),
+                embed_url("https://youtu.be/5Wedsi4qn9k"),
                
                # Include information about the app author so that anyone impressed by my Shiny App can contact me to offer me a job!
 
