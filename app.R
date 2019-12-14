@@ -8,6 +8,7 @@ library(ggplot2)
 library(plotly)
 library(ggthemes)
 library(vembedr)
+library(DT)
 
 # Read in data from rds files
 
@@ -309,6 +310,23 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
             
             
           )),
+        
+        
+    # Created a tab allowing users to explore the show data
+        
+     tabPanel("Explore the Shows", mainPanel(fluidRow(
+          column(4,
+                 selectInput("Year",
+                             "Year:",
+                             c("All",
+                               unique(plays_musicals$Year))))
+          )),
+        
+        # Create a new row for the table.
+        
+        dataTableOutput("table"),
+        
+        br()),
             
     
         
@@ -362,10 +380,12 @@ ui <- fluidPage(theme = shinytheme("sandstone"),
                  
        
                    
-  
+  # Define server logic
            
 server <- function(input, output) {
   
+  # Created histogram to show distribution of runs of plays versus musicals, which users can 
+  # compare (thru radiobutton)
   
   output$histPlot <- renderPlotly({
     
@@ -382,6 +402,7 @@ server <- function(input, output) {
     
   })
 
+  # Created bar plot to show overall difference between mean runs of plays and musicals
   
   output$comparePlot <- renderPlotly({
 
@@ -398,6 +419,8 @@ server <- function(input, output) {
     
   })
   
+  # Created bar plot to show overall difference between mean runs of winners and nominees, 
+  # for both plays and musicals 
   
   output$winnerPlot <- renderPlotly({
     
@@ -417,6 +440,8 @@ server <- function(input, output) {
     hide_legend(ggplotly(winner)) %>% config(displayModeBar = FALSE)
     
   })
+  
+  # Created bar graph for comparison (thru radiobutton) between plays and musicals across decades
    
   output$decadePlot <- renderPlotly({
     
@@ -436,6 +461,8 @@ server <- function(input, output) {
     
   })
   
+  # Created bar graph for comparison (thru radiobutton) between winners and nominees across decades
+  
   output$decadewinnerPlot <- renderPlotly({
     
     decadewinner <- ggplotly(plays_musicals %>% 
@@ -454,6 +481,8 @@ server <- function(input, output) {
     
   })
   
+  # Created scatter plot for plays vs musicals comparison across time
+  
   output$yearPlot <- renderPlotly({
     
     year <- ggplotly(plays_musicals %>% 
@@ -468,6 +497,9 @@ server <- function(input, output) {
     
   })
   
+  # Created scatter plot for winner vs nomination comparison across time. Coded winners as gold
+  # and nominees as silver.
+  
   output$yearwinnerPlot <- renderPlotly({
     
     yearwinner <- ggplotly(plays_musicals %>% 
@@ -481,6 +513,16 @@ server <- function(input, output) {
     hide_legend(ggplotly(yearwinner)) %>% config(displayModeBar = FALSE)
  
 })
+  
+  # Created an interactive data table. Filter data based on user's Year selections.
+  
+  output$table <- renderDataTable(datatable({
+    data <- plays_musicals
+    if (input$Year != "All") {
+      data <- data[data$Year == input$Year,]
+    }
+    data
+  }))
 
   
 }
