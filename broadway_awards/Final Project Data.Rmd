@@ -1,0 +1,373 @@
+---
+title: "Final Project Data"
+author: "Madeleine Snow"
+date: "11/18/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+library(rvest)
+library(googlesheets4)
+library(gt)
+
+```
+
+
+```{r Musicals, include=FALSE}
+
+url <- 'https://en.wikipedia.org/wiki/Tony_Award_for_Best_Musical'
+url <- read_html('https://en.wikipedia.org/wiki/Tony_Award_for_Best_Musical')
+
+bm40s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[2]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bm40s$Winner <- c(1)
+bm40s$Women <- c(1)
+bm40s$Decade <- c("1940s")
+
+bm50s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[3]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+bm50s$Decade <- c("1950s")
+
+
+bm50s$Winner <- c(1,1,1,1,1,1,1,0,1,0,0,0,1,0,0,0,0,1,0,0)
+bm50s$Women <- c(0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0)
+
+bm60s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[4]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bm60s$Winner <- c(1,1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0)
+bm60s$Women <- c(0,0,0,1, #1960
+                 0,1,0,0, #1961
+                 0,1,0,0, #1962
+                 0,0,0,0, #1963
+                 0,1,0,0, #1964
+                 0,0,1,1, #1965
+                 0,0,0,1, #1966
+                 0,0,0,1, #1967
+                 1,0,1,0, #1968
+                 0,0,0,0) #1969
+bm60s$Decade <- c("1960s")
+
+bm70s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[5]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bm70s$Winner <- c(1,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0)
+bm70s$Women <- c(1,0,0, #1970
+                 0,0,0, #1971
+                 0,0,0,0, #1972
+                 0,1,0,0, #1973
+                 1,0,1, #1974
+                 0,0,1,0, #1975
+                 0,0,0,0, #1976
+                 0,1,0,0, #1977
+                 0,0,1,1, #1978
+                 0,1,1,1) #1979
+bm70s$Decade <- c("1970s")
+
+bm80s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[6]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bm80s$Winner <- c(1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0)
+bm80s$Women <- c(0,0,0,1, #1980
+                 0,0,0,0, #1981
+                 0,0,0,1, #1982
+                 0,0,0,0, #1983
+                 0,1,0,0, #1984
+                 0,1,1,1, #1985
+                 0,0,0,0, #1986
+                 0,0,0,0, #1987
+                 0,0,0,0, #1988
+                 0,0,0) #1989
+bm80s$Decade <- c("1980s")
+
+bm90s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[7]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bm90s$Winner <- c(1,0,0,0,
+                  1,0,0,0, 
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0, #1995
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0)
+
+bm90s$Women <- c(0,0,0,0, #1990
+                 1,0,1,1, #1991
+                 0,0,0,1, #1992
+                 0,0,0,0, #1993
+                 0,0,1,0, #1994
+                 0,0, #1995
+                 0,1,1,0, #1996
+                 0,1,0,0, #1997
+                 1,0,1,1, #1998
+                 0,0,1,0) #1999
+bm90s$Decade <- c("1990s")
+
+bm_all <- rbind(bm40s, bm50s, bm60s, bm70s, bm80s, bm90s) %>% 
+  separate(Year, into = c('Year', 'Ceremony'), sep = 4) %>%
+  arrange(Year)
+
+```
+
+```{r Plays, include=FALSE}
+
+url <- 'https://en.wikipedia.org/wiki/Tony_Award_for_Best_Play'
+url <- read_html('https://en.wikipedia.org/wiki/Tony_Award_for_Best_Play')
+
+bp40s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[2]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bp40s$Winner <- c(1,1)
+bp40s$Women <- c(0,0)
+bp40s$Decade <- c("1940s")
+
+
+bp50s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[3]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bp50s$Winner <- c(1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,0,0,0,0, #1956
+                  1,0,0,0,
+                  1,0,0,0,0,0,0,0,
+                  1,0,0,0,0)
+bp50s$Women <- c(0,0,0,0,0,0,
+                 1,0,0,0,1,
+                 0,0,0,0,0,0,1,
+                 0,0,0,0,0,0,0,0,0,0)
+bp50s$Decade <- c("1950s")
+
+
+
+bp60s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[4]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bp60s$Winner <- c(1,0,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0)
+bp60s$Women <- c(0,1,0,0,1,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0)
+bp60s$Decade <- c("1960s")
+
+bp70s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[5]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bp70s$Winner <- c(1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0)
+bp70s$Women <- c(0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,1,
+                  0,0,0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,1,
+                  0,0,0,0,
+                  0,0,0,0)
+bp70s$Decade <- c("1970s")
+
+bp80s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[6]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bp80s$Winner <- c(1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0)
+bp80s$Women <- c(0,0,0,0,
+                  0,0,0,0,
+                  0,1,0,0,
+                  0,0,0,1,
+                  0,0,0,1,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,1,0,
+                  0,0,0,0,
+                  1,0,0,0)
+bp80s$Decade <- c("1980s")
+
+bp90s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[7]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bp90s$Winner <- c(1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0)
+bp90s$Women <- c(0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,1,0,
+                  0,0,0,1,
+                  0,0,1,0,
+                  0,0,0,0,
+                  0,0,1,0,
+                  1,0,0,0,
+                  0,0,0,0)
+bp90s$Decade <- c("1990s")
+
+bp00s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[8]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bp00s$Winner <- c(1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0)
+bp00s$Women <- c(0,1,0,0,
+                  0,0,0,0,
+                  0,0,1,1,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  1,0,0,0)
+bp00s$Decade <- c("2000s")
+
+bp10s <- url %>% 
+  html_node(xpath = '//*[@id="mw-content-text"]/div/table[9]') %>% 
+  html_table(fill = TRUE) %>% 
+  na.omit()
+
+bp10s$Winner <- c(1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,
+                  1,0,0,0,0,
+                  1,0,0,0,0)
+bp10s$Women <- c(0,1,0,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  0,1,0,0,
+                  0,0,0,0,0,
+                  0,0,0,1,
+                  0,1,0,0,
+                  0,0,1,1,
+                  0,1,1,0,0,
+                  0,0,0,0,1)
+bp10s$Decade <- c("2010s")
+
+bp_all <- rbind(bp40s, bp50s, bp60s, bp70s, bp80s, bp90s, bp00s, bp10s) %>% 
+  separate(Year, into = c('Year', 'Ceremony'), sep = 4) %>%
+  arrange(Year)
+
+```
+
+
+```{r Googlesheets, include = FALSE}
+
+sheets_deauth()
+
+plays_run <- read_sheet("1DJEwTvECsO_ElXbvSdtniU6G6HtJCSPCwgRCUp1FxXk")
+
+plays_run$Winner <- ifelse(plays_run$Winner == "1", "Winner", "Nominee")
+
+plays <- plays_run %>% filter(Category == "Play")
+plays %>% summarise(mean = mean(Performances))
+
+musicals <- plays_run %>% filter(Category == "Musical")
+musicals %>% summarise(mean = mean(Performances))
+
+graph1 <- plays_run %>% 
+  group_by(Category) %>% 
+  summarise(Avg_Run = mean(Performances))
+
+p1 <- ggplot(graph1, aes(x = Category, y = Avg_Run, fill = Category)) +
+  geom_bar(stat = "identity")
+
+graph2 <- plays_run %>% 
+  group_by(Category, Winner) %>% 
+  summarise(Avg_Run = mean(Performances))
+
+p2 <- ggplot(graph2, aes(x = Winner, y = Avg_Run, fill = Winner)) +
+  geom_bar(stat = "identity") +
+  facet_grid(~ Category)
+
+dir.create("bway_data")
+write_rds(plays_run, "bway_data/plays_musicals.rds")
+write_rds(plays, "bway_data/plays.rds")
+write_rds(musicals, "bway_data/musicals.rds")
+
+```
+
