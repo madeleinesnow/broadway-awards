@@ -371,38 +371,3 @@ write_rds(musicals, "bway_data/musicals.rds")
 
 ```
 
-```{r}
-
-longest_run_overall <- plays_run %>% 
-  select(Show, Year, Awards, Performances, Winner) %>% 
-  arrange(desc(Performances)) %>%
-  head(10) %>% 
-  gt() %>% 
-  tab_header(title = "Longest-Running Broadway Plays", subtitle = "Tony Award for Best Play: Winners & Nominees")
-longest_run_overall
-
-longest_run_winner <- plays_run %>% 
-  select(Show, Year, Awards, Performances, Winner) %>% 
-  filter(Winner == "Winner") %>% 
-  arrange(desc(Performances)) %>%
-  head(10) %>% 
-  gt() %>% 
-  tab_header(title = "Longest-Running Broadway Plays", subtitle = "Tony Award for Best Play: Winners")
-longest_run_winner
-
-longest_run_nom <- plays_run %>% 
-  select(Show, Year, Awards, Performances, Winner) %>% 
-  filter(Winner == "Nominee") %>% 
-  arrange(desc(Performances)) %>%
-  head(10) %>% 
-  gt() %>% 
-  tab_header(title = "Longest-Running Broadway Plays", subtitle = "Tony Award for Best Play: Nominees")
-longest_run_nom
-
-dir.create("tables")
-write_rds(longest_run_overall, "tables/overall.rds")
-write_rds(longest_run_winner, "tables/winner.rds")
-write_rds(longest_run_nom, "tables/nom.rds")
-
-```
-
